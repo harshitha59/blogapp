@@ -1,4 +1,5 @@
 <template>
+<!-- starting page -->
   <main>
 <div class="container">
     <div class="row1">
