@@ -19,7 +19,7 @@
         <div class="row2column2">
            <input type="text" placeholder="Enter Title" class="title" v-model="blogdetails.title"><br>
            <h2>Blog Description</h2><hr><br>
-           <textarea class="post" placeholder="click here to start writing..." v-model="blogdetails.description"></textarea><br>
+           <textarea class="post" placeholder="click here to start writing..." @input="size($event)" v-model="blogdetails.description"></textarea><br>
         </div>
         <div class="row2column3"></div>
 
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+
 import axios from 'axios'
 export default {
   data () {
@@ -41,17 +41,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getBlogDetails'])
+
   },
   methods: {
-    ...mapActions(['fetchBlogDetails']),
+    size (e) {
+      e.target.style.height = 'auto'
+      e.target.style.height = `${e.target.scrollHeight}px`
+    },
     save () {
       axios.put('http://localhost:3000/article/' + localStorage.getItem('myid'), this.blogdetails)
         .then(res => {
           console.log('put fun', res.data)
           this.$alert('updated successfully')
         })
-      this.$router.push('/retrieve')
+      this.$router.push('/allblog')
     }
   },
   beforeMount () {
@@ -160,4 +163,39 @@ h2{
   color: black;
 }
 
+@media screen and (max-width: 500px) {
+.container{
+    padding: 10%;
+}
+.image{
+    width: 50px;
+    padding: 0px 0px 0px 0px;
+}
+h1{
+    padding: 0px 0px 0px 30px;
+    font-size: 1.3em;
+}
+.col2{
+    width: 90%;
+}
+.btn{
+ padding: 10px 16px;
+ font-size: 0.8em;
+ margin-left: 200px;
+}
+.post{
+    font-size: 1em;
+    height: 50vh;
+    font-family: 'Times New Roman', Times, serif;
+}
+.row2column1{
+    width: 10%;
+}
+.row2column3{
+    width: 10%;
+}
+.row2column2{
+    width: 80%;
+}
+}
 </style>
